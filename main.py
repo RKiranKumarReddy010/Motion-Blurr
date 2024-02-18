@@ -59,6 +59,7 @@ with st.sidebar:
 
 
 if(add_radio == "Dataset Selection"):
+    st.image("MOTION BLURR.png")
     #ste
     file = st.file_uploader("Choose a file")
     if file:
@@ -204,7 +205,6 @@ if(add_radio == "Validate and Predict"):
     if st.button('TEST'):
         if(ans == 1):
             st.error('I\'m sorry you cancer showing MELIGNANT cancer properties: ', icon="🚨")
-
         else:
             st.success('Your cancer cell showing BENIGN cancer properties: ', icon="✅")
 
