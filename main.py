@@ -3,7 +3,6 @@ model_selection = 0
 import streamlit as st
 import os
 import streamlit.components.v1 as components
-import ydata_profiling
 import pandas as pd
 import pygwalker as pyg
 from pygwalker.api.streamlit import StreamlitRenderer, init_streamlit_comm
