@@ -37,23 +37,29 @@ if os.path.exists("source.csv"):
 
 # Using "with" notation
 with st.sidebar:
-    df = pd.read_csv("Cancer_Data.csv")
-    def convert_df(df):
-        # IMPORTANT: Cache the conversion to prevent computation on every rerun
-        return df.to_csv().encode('utf-8')
-
-    csv = convert_df(df)
     st.image("images.jpeg")
     add_radio = st.radio(
         "SELECT OPERATION",
         ("Dataset Selection","Report","Visualisation","Pipeline","Preprocess","Data Split","Validate and Predict")
     )
+    df = pd.read_csv("Cancer_Data.csv")
+
+    def convert_df(df):
+        return df.to_csv(index=False).encode('utf-8')
+
+
+    csv = convert_df(df)
+
     st.download_button(
-        label="Download the dataset",
-        data=csv,
-        file_name='Cancer_Data.csv',
-        mime='text/csv',
+        "Download",
+        csv,
+        "Cancer_Data.csv",
+        "text/csv",
+        key='download-csv'
     )
+
+
+
 
 if(add_radio == "Dataset Selection"):
     #ste
@@ -201,16 +207,11 @@ if(add_radio == "Validate and Predict"):
     if st.button('TEST'):
         if(ans == 1):
             st.error('I\'m sorry you cancer showing MELIGNANT cancer properties: ', icon="🚨")
-            st.download_button(
-                label="Download the dataset",
-                data=csv,
-                file_name='Cancer_Data.csv',
-                mime='text/csv',
-            )
 
         else:
             st.success('Your cancer cell showing BENIGN cancer properties: ', icon="✅")
-            st.download_button(
+
+        st.download_button(
                 label="Download the dataset",
                 data=csv,
                 file_name='Cancer_Data.csv',
