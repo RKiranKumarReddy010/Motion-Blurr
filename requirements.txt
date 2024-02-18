@@ -1,1 +1,8 @@
 pygwalker
+streamlit
+panda
+pycaret
+numpy
+sweetviz
+base64
+sklearn
