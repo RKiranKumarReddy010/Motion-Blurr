@@ -11,7 +11,6 @@ from pygwalker.api.streamlit import StreamlitRenderer, init_streamlit_comm
 from sklearn.neighbors import KNeighborsClassifier
 from io import StringIO
 import numpy as np
-import sweetviz
 import base64
 import time
 import plotly.express as px
