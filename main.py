@@ -4,11 +4,13 @@ import streamlit as st
 import os
 import streamlit.components.v1 as components
 import pandas as pd
+from sklearn.naive_bayes import GaussianNB
 import pygwalker as pyg
 from pygwalker.api.streamlit import StreamlitRenderer, init_streamlit_comm
 from pycaret.classification import setup, compare_models, pull, save_model
 from pygwalker.api.streamlit import StreamlitRenderer, init_streamlit_comm
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression
 from io import StringIO
 import numpy as np
 import base64
@@ -16,6 +18,7 @@ import time
 import plotly.express as px
 import streamlit as st
 from pycaret.classification import *
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn import svm
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -34,11 +37,6 @@ if os.path.exists("source.csv"):
 
 # Using "with" notation
 with st.sidebar:
-    st.image("images.jpeg")
-    add_radio = st.radio(
-        "SELECT OPERATION",
-        ("Dataset Selection","Report","Visualisation","Pipeline","Preprocess","Data Split","Validate and Predict")
-    )
     df = pd.read_csv("Cancer_Data.csv")
 
     def convert_df(df):
@@ -54,6 +52,12 @@ with st.sidebar:
         "text/csv",
         key='download-csv'
     )
+    st.image("images.jpeg")
+    add_radio = st.radio(
+        "SELECT OPERATION",
+        ("Dataset Selection","Report","Visualisation","Pipeline","Preprocess","Data Split","Validate and Predict")
+    )
+
 
 
 
@@ -115,10 +119,10 @@ if(add_radio == "Validate and Predict"):
     #global model_selection
     #model_selection = 0
     st.title(":::Validation of a model:::")
-    tar = st.selectbox("Select a Model:",["None","SVC","Decision Tree", "KNN", "Logistic Regression","Naive Bayes"])
+    tar = st.selectbox("Select a Model:",["Logistic Regression","SVC","Decision Tree", "KNN", "Naive Bayes","AdaBoost Classifier"])
     values = st.slider(
     'Select the test split:',
-    20.0, 40.0, (20.0))
+    0.01, 99.99, (15.0))
     st.write('Values:', values)
     dset = pd.read_csv("source.csv")
     dset['diagnosis'] = dset['diagnosis'].map({
@@ -129,16 +133,22 @@ if(add_radio == "Validate and Predict"):
     Y = dset["diagnosis"]
     xtrain,xtest,ytrain,ytest = train_test_split(X,Y,test_size=(values/100),random_state=2)
     if(tar == 'SVC'):
-        incr(1)
         model = svm.SVC()
     elif(tar == 'Decision Tree'):
-        incr(2)
         model = DecisionTreeClassifier(random_state=0)
     elif(tar == 'KNN'):
-        incr(3)
         model = KNeighborsClassifier()
     elif(tar == 'None'):
         st.write("Please select a model to get validate")
+    elif(tar == 'Logistic Regression'):
+        model = LogisticRegression(random_state=0)
+    elif(tar == 'Naive Bayes'):
+        model = GaussianNB()
+    elif(tar == 'AdaBoost Classifier'):
+        model = AdaBoostClassifier(algorithm="SAMME", random_state=42)
+
+
+
 
     model.fit(xtrain,ytrain)
     d = model.predict(xtest)
@@ -211,6 +221,6 @@ if(add_radio == "Validate and Predict"):
         st.download_button(
                 label="Download the dataset",
                 data=csv,
-                file_name='Cancer_Data.csv',
+                file_name='Cancer_Rewrite.csv',
                 mime='text/csv',
             )
