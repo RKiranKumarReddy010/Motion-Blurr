@@ -2,7 +2,6 @@ model_selection = 0
 
 import streamlit as st
 import os
-from streamlit_pandas_profiling import st_profile_report
 import streamlit.components.v1 as components
 import ydata_profiling
 import pandas as pd
