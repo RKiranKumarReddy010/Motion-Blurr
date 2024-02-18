@@ -4,4 +4,4 @@ streamlit
 panda
 pycaret
 numpy
-sklearn
+scikit-learn
