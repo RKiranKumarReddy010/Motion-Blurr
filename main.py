@@ -138,17 +138,12 @@ if(add_radio == "Validate and Predict"):
         model = DecisionTreeClassifier(random_state=0)
     elif(tar == 'KNN'):
         model = KNeighborsClassifier()
-    elif(tar == 'None'):
-        st.write("Please select a model to get validate")
     elif(tar == 'Logistic Regression'):
         model = LogisticRegression(random_state=0)
     elif(tar == 'Naive Bayes'):
         model = GaussianNB()
     elif(tar == 'AdaBoost Classifier'):
         model = AdaBoostClassifier(algorithm="SAMME", random_state=42)
-
-
-
 
     model.fit(xtrain,ytrain)
     d = model.predict(xtest)
@@ -206,6 +201,7 @@ if(add_radio == "Validate and Predict"):
 
 
     rslt=np.array([[a,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29]])
+    rslt = rslt.astype('float')
     ans = model.predict(rslt)
     def convert_df(df):
         # IMPORTANT: Cache the conversion to prevent computation on every rerun
